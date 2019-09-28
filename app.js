@@ -51,25 +51,150 @@ var Defaultdata = [
   { x: 126, y: 92.6 }
 ];
 
-var ctx = document.getElementById("myChart").getContext("2d");
-var scatterChart = new Chart(ctx, {
-  type: "scatter",
-  data: {
-    datasets: [
-      {
-        label: "Scatter Dataset",
-        data: Defaultdata
-      }
-    ]
-  },
-  options: {
-    scales: {
-      xAxes: [
+var x = [];
+var y = [];
+Defaultdata.forEach(value => {
+  x.push(value.x);
+  y.push(value.y);
+});
+xMedian = ss.median(x);
+yMedian = ss.median(y);
+
+plot2();
+
+function exampleChart() {
+  var ctx = document.getElementById("myChart").getContext("2d");
+  var myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      datasets: [
         {
-          type: "linear",
-          position: "bottom"
+          label: "# of Votes",
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)"
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)"
+          ],
+          borderWidth: 1
         }
       ]
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        ]
+      }
     }
-  }
-});
+  });
+}
+
+function plotLineChart() {
+  var ctx = document.getElementById("myChart").getContext("2d");
+  var speedData = {
+    labels: x,
+    datasets: [
+      {
+        label: "Car Speed",
+        data: y
+      }
+    ]
+  };
+
+  var chartOptions = {
+    legend: {
+      display: true,
+      position: "top",
+      labels: {
+        boxWidth: 80,
+        fontColor: "black"
+      }
+    }
+  };
+  var myLineChart = new Chart(ctx, {
+    type: "line",
+    data: speedData,
+    options: chartOptions,
+    lineAtIndex: [2, 4, 8]
+  });
+}
+function plot() {
+  var ctx = document.getElementById("myChart").getContext("2d");
+  var scatterChart = new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Scatter Dataset",
+          data: Defaultdata,
+          showLine: true,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      scales: {
+        xAxes: [
+          {
+            type: "linear",
+            position: "bottom"
+          }
+        ]
+      }
+    }
+  });
+}
+
+function plot2() {
+  var ctx = document.getElementById("myChart").getContext("2d");
+  var scatterChart = new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Scatter Dataset",
+          data: [{ x: 0, y: 0 }, { x: 5, y: 5 }],
+          showLine: true,
+          fill: false
+        },
+        {
+          label: "Scatter Dataset",
+          data: [{ x: 0, y: 0 }, { x: 2, y: 5 }],
+          showLine: true,
+          fill: false
+        },
+        {
+          label: "Scatter Dataset",
+          data: Defaultdata
+        }
+      ]
+    },
+    options: {
+      scales: {
+        xAxes: [
+          {
+            type: "linear",
+            position: "bottom"
+          }
+        ]
+      }
+    }
+  });
+}
