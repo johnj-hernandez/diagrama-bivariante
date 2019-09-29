@@ -6,10 +6,6 @@ var color1 = "#ef9a9a",
   color4 = "#66bb6a",
   colorLinea = "#333333";
 
-var cuadrante1 = 0,
-  cuadrante2 = 0,
-  cuadrante3 = 0,
-  cuadrante4 = 0;
 // datos por defecto
 var Defaultdata = [
   { x: 162, y: 94.6 },
@@ -63,10 +59,10 @@ var Defaultdata = [
   { x: 172, y: 92 },
   { x: 126, y: 92.6 }
 ];
+
 // almacenamos cada variable en su propio arreglo
 var x = [];
 var y = [];
-var colores = [];
 Defaultdata.forEach(value => {
   x.push(value.x);
   y.push(value.y);
@@ -88,52 +84,53 @@ var array1 = [],
 Defaultdata.forEach(value => {
   //condicionales
   // cuadrante 1
-  if (value.x > xMedian && value.y > yMedian) {
-    colores.push(color1);
-    cuadrante1++;
-    array1.push(value);
-  }
-
+  if (value.x > xMedian && value.y > yMedian) array1.push(value);
   // cuadrante 2
-  if (value.x < xMedian && value.y > yMedian) {
-    colores.push(color2);
-    cuadrante2++;
-    array2.push(value);
-  }
-
+  if (value.x < xMedian && value.y > yMedian) array2.push(value);
   // cuadrante 3
-  if (value.x < xMedian && value.y < yMedian) {
-    colores.push(color3);
-    array3.push(value);
-    cuadrante3++;
-  }
+  if (value.x < xMedian && value.y < yMedian) array3.push(value);
   // cuadrante 4
-  if (value.x > xMedian && value.y < yMedian) {
-    array4.push(value);
-    cuadrante4++;
-  }
+  if (value.x > xMedian && value.y < yMedian) array4.push(value);
 });
 
-var suma = cuadrante1 + cuadrante2 + cuadrante3 + cuadrante4;
-console.log(
-  "Cuadrantes",
-  cuadrante1,
-  cuadrante2,
-  cuadrante3,
-  cuadrante4,
-  "total:" + suma,
-  "cuadrante 2 ",
-  array2
-);
+resultados();
+function resultados() {
+  var suma = array1.length + array2.length + array3.length + array4.length;
+  document.getElementById("totalPuntos").innerText += "  " + Defaultdata.length;
+  document.getElementById("medianas").innerText +=
+    " Temperatura " + xMedian + "  Rendimiento: " + yMedian;
+  document.getElementById("puntosRestantes").innerText += "  " + suma;
+  document.getElementById("puntosCuadrantes").innerHTML +=
+    "Cuadrante I: " +
+    array1.length +
+    "puntos" +
+    "<br>" +
+    "Cuadrante II: " +
+    array2.length +
+    "puntos" +
+    "<br>" +
+    "Cuadrante III: " +
+    array3.length +
+    "puntos" +
+    "<br>" +
+    "Cuadrante IV: " +
+    array4.length +
+    "puntos";
 
+  //-finaliza la impresion de cuadrantes
+  let sumaOpuestos13 = array1.length + array3.length;
+  let sumaOpuestos24 = array2.length + array4.length;
+  let opuestos =
+    sumaOpuestos13 < sumaOpuestos24
+      ? " I y III con: " + sumaOpuestos13 + " puntos"
+      : " II y IV con: " + sumaOpuestos24 + " puntos";
+  document.getElementById("opuestos").innerHTML += opuestos;
+}
 // los dos puntos que permitiran cada divisor de los cuadrantes
 dataFirstDivider = [{ x: xMedian, y: yMin }, { x: xMedian, y: yMax }];
-
 dataSecondDivider = [{ y: yMedian, x: xMin }, { y: yMedian, x: xMax }];
-console.log(xMedian, yMedian);
 
 plot2();
-
 function plot2() {
   var ctx = document.getElementById("myChart").getContext("2d");
   var scatterChart = new Chart(ctx, {
@@ -181,12 +178,24 @@ function plot2() {
         fontSize: 18
       },
       scales: {
+        yAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: "RENDIMIENTO"
+            }
+          }
+        ],
         xAxes: [
           {
             type: "linear",
             position: "bottom",
             ticks: {
               beginAtZero: false
+            },
+            scaleLabel: {
+              display: true,
+              labelString: "TEMPERATURA"
             }
           }
         ]
