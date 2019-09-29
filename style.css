@@ -1,6 +1,6 @@
-#myChart {
-  width: 500px;
-  height: 500px;
+.chart-container {
+  height: 100vh;
+  width: 80vw;
 }
 
 .card {

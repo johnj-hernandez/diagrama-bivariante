@@ -122,8 +122,8 @@ function resultados() {
   let sumaOpuestos24 = array2.length + array4.length;
   let opuestos =
     sumaOpuestos13 < sumaOpuestos24
-      ? " I y III con: " + sumaOpuestos13 + " puntos"
-      : " II y IV con: " + sumaOpuestos24 + " puntos";
+      ? " I y III con: " + sumaOpuestos13 + " puntos" + "( VALOR DE PRUEBA)"
+      : " II y IV con: " + sumaOpuestos24 + " puntos" + "( VALOR DE PRUEBA)";
   document.getElementById("opuestos").innerHTML += opuestos;
 }
 // los dos puntos que permitiran cada divisor de los cuadrantes
@@ -172,6 +172,8 @@ function plot2() {
       ]
     },
     options: {
+      maintainAspectRatio: false,
+      responsive: true,
       title: {
         display: true,
         text: "Test de medianas",
