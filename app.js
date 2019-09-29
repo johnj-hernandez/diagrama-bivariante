@@ -1,3 +1,16 @@
+//definimos variables globales para los colores, en string
+//1 para cada cyadrabte y para los que caen en las medianas
+var color1 = "#ef9a9a",
+  color2 = "#7986cb",
+  color3 = "#ab47bc",
+  color4 = "#66bb6a",
+  colorLinea = "#333333";
+
+var cuadrante1 = 0,
+  cuadrante2 = 0,
+  cuadrante3 = 0,
+  cuadrante4 = 0;
+// datos por defecto
 var Defaultdata = [
   { x: 162, y: 94.6 },
   { x: 154, y: 93 },
@@ -50,117 +63,76 @@ var Defaultdata = [
   { x: 172, y: 92 },
   { x: 126, y: 92.6 }
 ];
-
+// almacenamos cada variable en su propio arreglo
 var x = [];
 var y = [];
+var colores = [];
 Defaultdata.forEach(value => {
   x.push(value.x);
   y.push(value.y);
 });
+// calculamos los minimos,maximos y medianas de cada variable para graficar en el diagrama
 xMedian = ss.median(x);
 yMedian = ss.median(y);
+xMin = ss.min(x);
+xMax = ss.max(x);
+yMin = ss.min(y);
+yMax = ss.max(y);
+
+//definimos arreglos que almacenan los puntos de cada cuadrante
+var array1 = [],
+  array2 = [],
+  array3 = [],
+  array4 = [];
+//ForEach para los condicionales de clasificacion de los cuadrantes
+Defaultdata.forEach(value => {
+  //condicionales
+  // cuadrante 1
+  if (value.x > xMedian && value.y > yMedian) {
+    colores.push(color1);
+    cuadrante1++;
+    array1.push(value);
+  }
+
+  // cuadrante 2
+  if (value.x < xMedian && value.y > yMedian) {
+    colores.push(color2);
+    cuadrante2++;
+    array2.push(value);
+  }
+
+  // cuadrante 3
+  if (value.x < xMedian && value.y < yMedian) {
+    colores.push(color3);
+    array3.push(value);
+    cuadrante3++;
+  }
+  // cuadrante 4
+  if (value.x > xMedian && value.y < yMedian) {
+    array4.push(value);
+    cuadrante4++;
+  }
+});
+
+var suma = cuadrante1 + cuadrante2 + cuadrante3 + cuadrante4;
+console.log(
+  "Cuadrantes",
+  cuadrante1,
+  cuadrante2,
+  cuadrante3,
+  cuadrante4,
+  "total:" + suma,
+  "cuadrante 2 ",
+  array2
+);
+
+// los dos puntos que permitiran cada divisor de los cuadrantes
+dataFirstDivider = [{ x: xMedian, y: yMin }, { x: xMedian, y: yMax }];
+
+dataSecondDivider = [{ y: yMedian, x: xMin }, { y: yMedian, x: xMax }];
+console.log(xMedian, yMedian);
 
 plot2();
-
-function exampleChart() {
-  var ctx = document.getElementById("myChart").getContext("2d");
-  var myChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-      datasets: [
-        {
-          label: "# of Votes",
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 206, 86, 0.2)",
-            "rgba(75, 192, 192, 0.2)",
-            "rgba(153, 102, 255, 0.2)",
-            "rgba(255, 159, 64, 0.2)"
-          ],
-          borderColor: [
-            "rgba(255, 99, 132, 1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)"
-          ],
-          borderWidth: 1
-        }
-      ]
-    },
-    options: {
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true
-            }
-          }
-        ]
-      }
-    }
-  });
-}
-
-function plotLineChart() {
-  var ctx = document.getElementById("myChart").getContext("2d");
-  var speedData = {
-    labels: x,
-    datasets: [
-      {
-        label: "Car Speed",
-        data: y
-      }
-    ]
-  };
-
-  var chartOptions = {
-    legend: {
-      display: true,
-      position: "top",
-      labels: {
-        boxWidth: 80,
-        fontColor: "black"
-      }
-    }
-  };
-  var myLineChart = new Chart(ctx, {
-    type: "line",
-    data: speedData,
-    options: chartOptions,
-    lineAtIndex: [2, 4, 8]
-  });
-}
-function plot() {
-  var ctx = document.getElementById("myChart").getContext("2d");
-  var scatterChart = new Chart(ctx, {
-    type: "scatter",
-    data: {
-      datasets: [
-        {
-          label: "Scatter Dataset",
-          data: Defaultdata,
-          showLine: true,
-          fill: false
-        }
-      ]
-    },
-    options: {
-      scales: {
-        xAxes: [
-          {
-            type: "linear",
-            position: "bottom"
-          }
-        ]
-      }
-    }
-  });
-}
 
 function plot2() {
   var ctx = document.getElementById("myChart").getContext("2d");
@@ -169,29 +141,53 @@ function plot2() {
     data: {
       datasets: [
         {
-          label: "Scatter Dataset",
-          data: [{ x: 0, y: 0 }, { x: 5, y: 5 }],
+          label: "Mediana de la temperatura",
+          data: dataFirstDivider,
           showLine: true,
           fill: false
         },
         {
-          label: "Scatter Dataset",
-          data: [{ x: 0, y: 0 }, { x: 2, y: 5 }],
+          label: "Mediana del rendimiento",
+          data: dataSecondDivider,
           showLine: true,
           fill: false
         },
         {
-          label: "Scatter Dataset",
-          data: Defaultdata
+          label: "cuadrante1",
+          data: array1,
+          backgroundColor: color1
+        },
+        {
+          label: "cuadrante2",
+          data: array2,
+          backgroundColor: color2
+        },
+        {
+          label: "cuadrante3",
+          data: array3,
+          backgroundColor: color3
+        },
+        {
+          label: "cuadrante4",
+          data: array4,
+          backgroundColor: color4
         }
       ]
     },
     options: {
+      title: {
+        display: true,
+        text: "Test de medianas",
+        fontSize: 18
+      },
       scales: {
         xAxes: [
           {
             type: "linear",
-            position: "bottom"
+            position: "bottom",
+            ticks: {
+              beginAtZero: false
+            }
           }
         ]
       }
