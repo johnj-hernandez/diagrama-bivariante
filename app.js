@@ -198,14 +198,27 @@ function resultados() {
       ? " I y III con: " + sumaOpuestos13 + " puntos" + "( VALOR DE PRUEBA)"
       : " II y IV con: " + sumaOpuestos24 + " puntos" + "( VALOR DE PRUEBA)";
   document.getElementById("opuestos").innerHTML += opuestos;
+  //correlacion
+  let valorPrueba =
+    sumaOpuestos13 < sumaOpuestos24 ? sumaOpuestos13 : sumaOpuestos24;
+  verificarCor = verificarCorrelacion(tablaValores, suma, valorPrueba);
+  let resCorrelacion =
+    verificarCor.correlacion == true
+      ? "SI existe una correlacion con una probabilidad de error inferior al 5% debido a que el valor de prueba es inferior al limite establecido.    "
+      : "NO existe correlacion.  ";
+  resCorrelacion += " " + verificarCor.comparacion;
+  console.log(verificarCorrelacion(tablaValores, suma, valorPrueba));
+  document.getElementById("correlacion").innerHTML += resCorrelacion;
 }
-// los dos puntos que permitiran cada divisor de los cuadrantes
-dataFirstDivider = [{ x: xMedian, y: yMin }, { x: xMedian, y: yMax }];
-dataSecondDivider = [{ y: yMedian, x: xMin }, { y: yMedian, x: xMax }];
 
 plot2();
 function plot2() {
   var ctx = document.getElementById("myChart").getContext("2d");
+
+  // los dos puntos que permitiran cada divisor de los cuadrantes
+  dataFirstDivider = [{ x: xMedian, y: yMin }, { x: xMedian, y: yMax }];
+  dataSecondDivider = [{ y: yMedian, x: xMin }, { y: yMedian, x: xMax }];
+
   var scatterChart = new Chart(ctx, {
     type: "scatter",
     data: {
@@ -277,4 +290,19 @@ function plot2() {
       }
     }
   });
+}
+
+function verificarCorrelacion(tablaValores, nPuntos, valorPrueba) {
+  for (let index = 0; index < tablaValores.length; index++) {
+    const element = tablaValores[index];
+    if (element.puntos == nPuntos) {
+      console.log(element);
+      flag = element.limite > valorPrueba ? true : false;
+      return {
+        correlacion: flag,
+        comparacion:
+          "Valor de prueba:" + valorPrueba + " Limite:" + element.limite + " "
+      };
+    }
+  }
 }
