@@ -11,3 +11,36 @@
 #puntosRestantes span {
   font-weight: bold;
 }
+
+table {
+  height: 80%;
+  width: 40%;
+  margin: 0px auto;
+  overflow: auto;
+}
+
+#tabla-limites {
+  color: red;
+  width: 40%;
+  margin: 0px auto;
+}
+
+.datos-container {
+  height: 80vh;
+  overflow: auto;
+  margin: 20px;
+}
+
+.btn-group {
+  justify-content: space-evenly;
+}
+
+#contenedor-tablas {
+  display: flex;
+  justify-content: center;
+}
+
+.limiteValores,
+.datosUsados {
+  display: none;
+}

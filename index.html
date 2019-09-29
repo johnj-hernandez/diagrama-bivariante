@@ -30,6 +30,46 @@
       <h5 id="puntosCuadrantes"></h5>
       <h5 id="opuestos">Los cuadrantes opuestos con suma menor son:</h5>
       <h5 id="correlacion"></h5>
+      <div class="btn-group">
+        <a class="waves-effect waves-light btn btn-datos">Ver Datos</a>
+        <a class="waves-effect waves-light btn btn-limites"
+          >Ver Tabla de limites</a
+        >
+        <a class="waves-effect waves-light btn">Editar Datos(proximamente)</a>
+      </div>
+    </div>
+    <div id="contenedor-tablas">
+      <!-- datos utilizados -->
+      <div class=" card container text-center datos-container datosUsados">
+        <h4 class="center-align indigo-text">DATOS UTILIZADOS</h4>
+        <table id="datos" class="center-align centered highlight ">
+          <thead>
+            <tr>
+              <th>Temperatura</th>
+              <th>Rendimiento</th>
+            </tr>
+          </thead>
+
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- valores de prueba -->
+      <div class="container text-center datos-container limiteValores card">
+        <h4 class="center-align indigo-text">
+          Tabla de limites de valores de prueba
+        </h4>
+        <table id="datos-limites" class="center-align centered highlight ">
+          <thead>
+            <tr>
+              <th># Puntos</th>
+              <th>Limite</th>
+            </tr>
+          </thead>
+
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
     <!-- 
         

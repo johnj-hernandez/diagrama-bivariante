@@ -167,6 +167,34 @@ Defaultdata.forEach(value => {
 });
 
 resultados();
+plot2();
+// creamos las tablas con el metodo recien creado
+CreateTableFromData(Defaultdata, "datos", "x", "y");
+CreateTableFromData(tablaValores, "datos-limites", "puntos", "limite");
+
+// agregamos los event Listeners a los botones
+document.querySelector(".btn-datos").addEventListener("click", e => {
+  var contenedorDatos = document.querySelector(".datosUsados");
+  if (e.target.innerText == "VER DATOS") {
+    e.target.innerText = "Ocultar Datos";
+    contenedorDatos.style.display = "block";
+  } else {
+    e.target.innerText = "Ver Datos";
+    contenedorDatos.style.display = "none";
+  }
+});
+document.querySelector(".btn-limites").addEventListener("click", e => {
+  var contenedorDatos = document.querySelector(".limiteValores");
+  console.log(e.target.innerText);
+  if (e.target.innerText == "VER TABLA DE LIMITES") {
+    e.target.innerText = "ocultar Tabla de limites";
+    contenedorDatos.style.display = "block";
+  } else {
+    e.target.innerText = "Ver Tabla de limites";
+    contenedorDatos.style.display = "none";
+  }
+});
+
 function resultados() {
   var suma = array1.length + array2.length + array3.length + array4.length;
   document.getElementById("totalPuntos").innerText += "  " + Defaultdata.length;
@@ -211,7 +239,6 @@ function resultados() {
   document.getElementById("correlacion").innerHTML += resCorrelacion;
 }
 
-plot2();
 function plot2() {
   var ctx = document.getElementById("myChart").getContext("2d");
 
@@ -305,4 +332,18 @@ function verificarCorrelacion(tablaValores, nPuntos, valorPrueba) {
       };
     }
   }
+}
+
+function CreateTableFromData(data, tableID, param1, param2) {
+  table = document.querySelector("#" + tableID + " tbody");
+  data.forEach(value => {
+    const tr = document.createElement("tr");
+    const td1 = document.createElement("td");
+    const td2 = document.createElement("td");
+    td1.innerHTML = value[param1];
+    td2.innerHTML = value[param2];
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    table.appendChild(tr);
+  });
 }
